@@ -129,19 +129,70 @@ span {
     color: var(--muted);
 }
 
-.auth-points {
+.auth-brand-row {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    flex-wrap: wrap;
+}
+
+.auth-badge {
+    display: inline-flex;
+    align-items: center;
+    border-radius: 999px;
+    padding: 7px 12px;
+    font-size: 0.8rem;
+    color: var(--accent);
+    background: rgba(39, 76, 69, 0.12);
+    border: 1px solid rgba(39, 76, 69, 0.16);
+}
+
+.auth-showcase {
     display: grid;
     gap: 14px;
     margin-top: 10px;
 }
 
-.auth-point {
+.showcase-card {
+    padding: 22px 24px;
+    border-radius: 24px;
+    background: rgba(255, 248, 239, 0.78);
+    border: 1px solid rgba(198, 101, 58, 0.12);
+}
+
+.showcase-card strong {
+    display: block;
+    margin: 6px 0 8px;
+    font-size: 1.45rem;
+}
+
+.showcase-card p {
+    margin: 0;
+    color: var(--muted);
+}
+
+.showcase-kicker {
+    display: inline-block;
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+    color: var(--primary-deep);
+}
+
+.showcase-lines {
     display: grid;
-    gap: 4px;
-    padding: 16px 18px;
-    border-radius: var(--radius-md);
-    background: rgba(255, 248, 239, 0.72);
-    border: 1px solid rgba(198, 101, 58, 0.14);
+    gap: 10px;
+    padding: 0 10px;
+}
+
+.showcase-lines span {
+    display: block;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(63, 45, 30, 0.18), transparent);
+}
+
+.showcase-card.is-accent {
+    background: linear-gradient(135deg, rgba(39, 76, 69, 0.12), rgba(255, 248, 239, 0.8));
 }
 
 .auth-form,
@@ -226,6 +277,10 @@ button:hover {
 .auth-switch {
     margin: 18px 0 0;
     color: var(--muted);
+}
+
+.auth-card-copy {
+    margin: 12px 0 18px;
 }
 
 .auth-switch a {

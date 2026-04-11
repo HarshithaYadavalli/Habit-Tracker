@@ -9,28 +9,40 @@
 <body class="auth-body">
     <div class="auth-shell">
         <section class="auth-hero">
-            <p class="eyebrow">Habit Tracker</p>
-            <h1>Stop using a dashboard that looks like a school project.</h1>
-            <p class="muted">Track routines in a cleaner workspace with a better flow, stronger visual hierarchy, and faster navigation.</p>
-            <div class="auth-points">
-                <div class="auth-point">
-                    <strong>See progress fast</strong>
-                    <span>Summary cards make the day obvious.</span>
+            <div class="auth-brand-row">
+                <p class="eyebrow">Habit Tracker</p>
+                <span class="auth-badge">Daily routine workspace</span>
+            </div>
+            <h1>Design a calmer day, one repeatable habit at a time.</h1>
+            <p class="muted">A focused place to check off habits, see progress, and keep your routines feeling clear.</p>
+
+            <div class="auth-showcase">
+                <div class="showcase-card">
+                    <span class="showcase-kicker">Today</span>
+                    <strong>3 habits in focus</strong>
+                    <p>Small actions, one clean dashboard.</p>
                 </div>
-                <div class="auth-point">
-                    <strong>Move around easily</strong>
-                    <span>Sections, filters, and quick actions keep things simple.</span>
+                <div class="showcase-lines" aria-hidden="true">
+                    <span></span>
+                    <span></span>
+                    <span></span>
                 </div>
-                <div class="auth-point">
-                    <strong>Manage habits cleanly</strong>
-                    <span>Add, complete, reset, or delete without friction.</span>
+                <div class="showcase-card is-accent">
+                    <div>
+                        <span class="showcase-kicker">Flow</span>
+                        <strong>Track. Complete. Repeat.</strong>
+                    </div>
+                    <p>Minimal routine tracking without the clutter.</p>
                 </div>
             </div>
         </section>
 
         <section class="auth-card">
-            <p class="eyebrow">{{ 'Create account' if mode == 'register' else 'Welcome back' }}</p>
-            <h2>{{ 'Register' if mode == 'register' else 'Login' }}</h2>
+            <p class="eyebrow">{{ 'Create your routine space' if mode == 'register' else 'Welcome back to your habits' }}</p>
+            <h2>{{ 'Start tracking' if mode == 'register' else 'Login' }}</h2>
+            <p class="auth-card-copy muted">
+                {{ 'Create an account to set up your first routine and start checking habits off daily.' if mode == 'register' else 'Pick up where you left off and head back into your dashboard.' }}
+            </p>
             <form action="{{ '/register' if mode == 'register' else '/login' }}" method="post" class="auth-form">
                 <div class="field-group">
                     <label for="email">Email</label>
@@ -40,7 +52,7 @@
                     <label for="password">Password</label>
                     <input type="password" id="password" name="password" placeholder="Enter password" required>
                 </div>
-                <button type="submit" class="button">{{ 'Create account' if mode == 'register' else 'Enter dashboard' }}</button>
+                <button type="submit" class="button">{{ 'Create account' if mode == 'register' else 'Open dashboard' }}</button>
             </form>
             <p class="auth-switch">
                 {% if mode == 'register' %}
