@@ -12,7 +12,7 @@ A simple fullstack Habit Tracker built with Python (FastAPI), SQLite, and HTML/C
    - Python packages are already installed in the venv.
 
 3. **Run the App**:
-   - `c:/Users/harshitha/OneDrive/Desktop/samp/.venv/Scripts/python.exe -m uvicorn main:app --reload`
+   - `uvicorn main:app --reload`
    - Open http://127.0.0.1:8000 in browser.
 
 ## Features
