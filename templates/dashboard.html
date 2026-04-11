@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Habit Tracker - Dashboard</title>
+    <link rel="stylesheet" href="/static/styles.css">
+</head>
+<body>
+    <div class="container">
+        <h1>My Habits</h1>
+        <div class="form-container">
+            <h2>Add New Habit</h2>
+            <form id="add-habit-form">
+                <input type="text" id="habit-name" placeholder="Habit Name" required>
+                <input type="text" id="habit-description" placeholder="Description">
+                <button type="submit">Add Habit</button>
+            </form>
+        </div>
+        <div id="habits-list">
+            <!-- Habits will be loaded here -->
+        </div>
+    </div>
+    <script src="/static/app.js"></script>
+</body>
+</html>
