@@ -6,20 +6,121 @@
     <title>Habit Tracker - Dashboard</title>
     <link rel="stylesheet" href="/static/styles.css">
 </head>
-<body>
-    <div class="container">
-        <h1>My Habits</h1>
-        <div class="form-container">
-            <h2>Add New Habit</h2>
-            <form id="add-habit-form">
-                <input type="text" id="habit-name" placeholder="Habit Name" required>
-                <input type="text" id="habit-description" placeholder="Description">
-                <button type="submit">Add Habit</button>
-            </form>
-        </div>
-        <div id="habits-list">
-            <!-- Habits will be loaded here -->
-        </div>
+<body class="dashboard-body">
+    <div class="dashboard-shell">
+        <aside class="sidebar">
+            <div class="brand-block">
+                <p class="eyebrow">Habit Tracker</p>
+                <h1>Build routines that stick.</h1>
+                <p class="muted">A sharper dashboard for your daily habits, progress, and quick actions.</p>
+            </div>
+
+            <nav class="side-nav">
+                <a href="#overview" class="nav-link active">Overview</a>
+                <a href="#planner" class="nav-link">Add Habit</a>
+                <a href="#habits-section" class="nav-link">All Habits</a>
+            </nav>
+
+            <div class="sidebar-card">
+                <p class="sidebar-label">Quick tips</p>
+                <ul class="tips-list">
+                    <li>Use filters to focus on today’s priorities.</li>
+                    <li>Reset a habit when you want a clean restart.</li>
+                    <li>Search makes long lists much easier to manage.</li>
+                </ul>
+            </div>
+        </aside>
+
+        <main class="dashboard-main">
+            <header class="topbar" id="overview">
+                <div>
+                    <p class="eyebrow">Daily Control Center</p>
+                    <h2>Your habits, with actual structure.</h2>
+                </div>
+                <div class="topbar-actions">
+                    <a href="#planner" class="button button-secondary">Create Habit</a>
+                    <a href="/" class="button button-ghost">Sign Out</a>
+                </div>
+            </header>
+
+            <section class="stats-grid">
+                <article class="stat-card">
+                    <span class="stat-label">Total habits</span>
+                    <strong id="stat-total">0</strong>
+                </article>
+                <article class="stat-card">
+                    <span class="stat-label">Done today</span>
+                    <strong id="stat-completed">0</strong>
+                </article>
+                <article class="stat-card">
+                    <span class="stat-label">Needs attention</span>
+                    <strong id="stat-pending">0</strong>
+                </article>
+                <article class="stat-card">
+                    <span class="stat-label">Completion rate</span>
+                    <strong id="stat-rate">0%</strong>
+                </article>
+            </section>
+
+            <section class="panel planner-panel" id="planner">
+                <div class="panel-header">
+                    <div>
+                        <p class="eyebrow">Plan Better</p>
+                        <h3>Add a new habit</h3>
+                    </div>
+                    <p class="muted">Keep it short and specific so it is easy to complete consistently.</p>
+                </div>
+                <form id="add-habit-form" class="habit-form">
+                    <div class="field-group">
+                        <label for="habit-name">Habit name</label>
+                        <input type="text" id="habit-name" placeholder="Drink 2L of water" required>
+                    </div>
+                    <div class="field-group">
+                        <label for="habit-description">Description</label>
+                        <textarea id="habit-description" placeholder="Add a tiny reminder or success rule"></textarea>
+                    </div>
+                    <button type="submit" class="button">Add Habit</button>
+                </form>
+            </section>
+
+            <section class="panel controls-panel">
+                <div class="panel-header">
+                    <div>
+                        <p class="eyebrow">Navigate Fast</p>
+                        <h3>Search and filter</h3>
+                    </div>
+                </div>
+                <div class="controls-row">
+                    <div class="field-group search-field">
+                        <label for="habit-search">Search habits</label>
+                        <input type="search" id="habit-search" placeholder="Search by name or description">
+                    </div>
+                    <div class="field-group">
+                        <label for="habit-filter">View</label>
+                        <select id="habit-filter">
+                            <option value="all">All habits</option>
+                            <option value="pending">Needs attention</option>
+                            <option value="completed">Completed today</option>
+                        </select>
+                    </div>
+                </div>
+            </section>
+
+            <section class="panel list-panel" id="habits-section">
+                <div class="panel-header">
+                    <div>
+                        <p class="eyebrow">Habit Board</p>
+                        <h3>Your routine list</h3>
+                    </div>
+                    <span class="muted" id="results-count">0 habits</span>
+                </div>
+                <div id="empty-state" class="empty-state hidden">
+                    <h4>No habits match this view.</h4>
+                    <p>Try a different filter or create a fresh habit to get momentum going.</p>
+                </div>
+                <div id="habits-list" class="habits-grid"></div>
+            </section>
+        </main>
     </div>
     <script src="/static/app.js"></script>
 </body>

@@ -3,7 +3,6 @@ from fastapi.responses import HTMLResponse, RedirectResponse
 from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
 import sqlite3
-import os
 from datetime import date
 
 # Database setup
@@ -52,34 +51,7 @@ templates = Jinja2Templates(directory="templates")
 
 @app.get("/", response_class=HTMLResponse)
 async def home(request: Request):
-    # Return plain HTML for login page
-    html_content = """
-    <!DOCTYPE html>
-    <html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Habit Tracker - Login</title>
-        <link rel="stylesheet" href="/static/styles.css">
-    </head>
-    <body>
-        <div class="container">
-            <h1>Habit Tracker</h1>
-            <div class="form-container">
-                <h2>Login</h2>
-                <form action="/login" method="post">
-                    <input type="email" name="email" placeholder="Email" required>
-                    <input type="password" name="password" placeholder="Password" required>
-                    <button type="submit">Login</button>
-                </form>
-                <p>Don't have an account? <a href="/register">Register here</a></p>
-            </div>
-        </div>
-        <script src="/static/app.js"></script>
-    </body>
-    </html>
-    """
-    return HTMLResponse(content=html_content)
+    return templates.TemplateResponse(request=request, name="login.html", context={"mode": "login"})
 
 @app.get("/setup")
 async def setup_database():
@@ -112,34 +84,7 @@ async def setup_database():
 
 @app.get("/register", response_class=HTMLResponse)
 async def register_page(request: Request):
-    # Return plain HTML for register page
-    html_content = """
-    <!DOCTYPE html>
-    <html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Habit Tracker - Register</title>
-        <link rel="stylesheet" href="/static/styles.css">
-    </head>
-    <body>
-        <div class="container">
-            <h1>Habit Tracker</h1>
-            <div class="form-container">
-                <h2>Register</h2>
-                <form action="/register" method="post">
-                    <input type="email" name="email" placeholder="Email" required>
-                    <input type="password" name="password" placeholder="Password" required>
-                    <button type="submit">Register</button>
-                </form>
-                <p>Already have an account? <a href="/">Login here</a></p>
-            </div>
-        </div>
-        <script src="/static/app.js"></script>
-    </body>
-    </html>
-    """
-    return HTMLResponse(content=html_content)
+    return templates.TemplateResponse(request=request, name="login.html", context={"mode": "register"})
 
 @app.post("/register")
 async def register(email: str = Form(...), password: str = Form(...)):
@@ -153,36 +98,7 @@ async def login(email: str = Form(...), password: str = Form(...)):
 
 @app.get("/dashboard", response_class=HTMLResponse)
 async def dashboard(request: Request):
-    # Return plain HTML for now to avoid template issues
-    html_content = """
-    <!DOCTYPE html>
-    <html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Habit Tracker - Dashboard</title>
-        <link rel="stylesheet" href="/static/styles.css">
-    </head>
-    <body>
-        <div class="container">
-            <h1>My Habits</h1>
-            <div class="form-container">
-                <h2>Add New Habit</h2>
-                <form id="add-habit-form">
-                    <input type="text" id="habit-name" placeholder="Habit Name" required>
-                    <input type="text" id="habit-description" placeholder="Description">
-                    <button type="submit">Add Habit</button>
-                </form>
-            </div>
-            <div id="habits-list">
-                <!-- Habits will be loaded here -->
-            </div>
-        </div>
-        <script src="/static/app.js"></script>
-    </body>
-    </html>
-    """
-    return HTMLResponse(content=html_content)
+    return templates.TemplateResponse(request=request, name="dashboard.html")
 
 @app.post("/habits")
 async def add_habit(name: str = Form(...), description: str = Form(...)):
@@ -214,14 +130,21 @@ async def get_habits():
         
         user_id = "default_user"
         
-        # Get habits with streak count
+        # Aggregate completion history per habit for richer UI state.
         cursor.execute("""
-            SELECT h.id, h.name, h.description, COUNT(c.id) as streak
+            SELECT
+                h.id,
+                h.name,
+                h.description,
+                COUNT(c.id) as total_completions,
+                MAX(c.date) as last_completed,
+                MAX(CASE WHEN c.date = ? THEN 1 ELSE 0 END) as completed_today
             FROM habits h
             LEFT JOIN completions c ON h.id = c.habit_id
             WHERE h.user_id = ?
             GROUP BY h.id, h.name, h.description
-        """, (user_id,))
+            ORDER BY h.id DESC
+        """, (date.today().isoformat(), user_id))
         
         habits = []
         for row in cursor.fetchall():
@@ -229,7 +152,10 @@ async def get_habits():
                 "id": row[0],
                 "name": row[1],
                 "description": row[2],
-                "streak": row[3]
+                "streak": row[3],
+                "total_completions": row[3],
+                "last_completed": row[4],
+                "completed_today": bool(row[5])
             })
         
         conn.close()
@@ -253,6 +179,37 @@ async def mark_completion(habit_id: int = Form(...)):
         conn.commit()
         conn.close()
         
+        return {"success": True}
+    except Exception as e:
+        raise HTTPException(status_code=400, detail=str(e))
+
+@app.post("/habits/{habit_id}/reset")
+async def reset_habit(habit_id: int):
+    try:
+        conn = sqlite3.connect(DATABASE_PATH)
+        cursor = conn.cursor()
+
+        cursor.execute("DELETE FROM completions WHERE habit_id = ?", (habit_id,))
+
+        conn.commit()
+        conn.close()
+
+        return {"success": True}
+    except Exception as e:
+        raise HTTPException(status_code=400, detail=str(e))
+
+@app.post("/habits/{habit_id}/delete")
+async def delete_habit(habit_id: int):
+    try:
+        conn = sqlite3.connect(DATABASE_PATH)
+        cursor = conn.cursor()
+
+        cursor.execute("DELETE FROM completions WHERE habit_id = ?", (habit_id,))
+        cursor.execute("DELETE FROM habits WHERE id = ?", (habit_id,))
+
+        conn.commit()
+        conn.close()
+
         return {"success": True}
     except Exception as e:
         raise HTTPException(status_code=400, detail=str(e))
