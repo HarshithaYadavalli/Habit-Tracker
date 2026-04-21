@@ -1,125 +1,203 @@
-# Habit Tracker App
+# Habit Tracker
 
-A simple habit tracker built with FastAPI, SQLite, and vanilla HTML/CSS/JS.
+<p align="center">
+  A calm, minimal habit-tracking dashboard built with FastAPI, SQLite, and vanilla JavaScript.
+</p>
 
-## Local setup
+<p align="center">
+  <img src="https://img.shields.io/badge/FastAPI-Backend-05998b?style=for-the-badge&logo=fastapi&logoColor=white" alt="FastAPI badge" />
+  <img src="https://img.shields.io/badge/SQLite-Database-0f6db6?style=for-the-badge&logo=sqlite&logoColor=white" alt="SQLite badge" />
+  <img src="https://img.shields.io/badge/Vanilla-JavaScript-f2c94c?style=for-the-badge&logo=javascript&logoColor=1f2937" alt="JavaScript badge" />
+  <img src="https://img.shields.io/badge/HTML%2FCSS-UI-e76f51?style=for-the-badge&logo=html5&logoColor=white" alt="HTML CSS badge" />
+</p>
 
-1. Create and activate a virtual environment.
-2. Install dependencies:
-   `pip install -r requirements.txt`
-3. Run the app:
-   `uvicorn main:app --reload`
-4. Open `http://127.0.0.1:8000`
+<p align="center">
+  <img src="https://img.shields.io/badge/Status-Local%20Project-7c3aed?style=flat-square" alt="Project status badge" />
+  <img src="https://img.shields.io/badge/Focus-Readable%20UI-2563eb?style=flat-square" alt="Readable UI badge" />
+  <img src="https://img.shields.io/badge/Type-Full%20Stack-16a34a?style=flat-square" alt="Full stack badge" />
+</p>
 
-By default, the app stores its SQLite database in `./habits.db`.
+## Overview
 
-## Deployment-ready changes
+Habit Tracker is a small full-stack project focused on one thing: making daily routines feel easier to manage.
 
-This repo is now set up for hosted deployment with:
+Instead of building a cluttered productivity app, the idea here was to create something visually clean, simple to understand, and fast to interact with. You can create habits, track daily completions, filter what needs attention, and get a quick snapshot of your progress from one dashboard.
 
-- `requirements.txt` for Python dependencies
-- `render.yaml` for Render service configuration
-- `DATABASE_PATH` environment support in the app
-- `/health` endpoint for platform health checks
-- `.gitignore` to avoid committing local runtime files
+It is also a portfolio-style project that shows the full path from backend routes and database storage to UI styling and client-side interactivity.
 
-## How database storage works
+## Why this project
 
-The app reads its SQLite path from the `DATABASE_PATH` environment variable.
+I wanted to build something that felt practical, polished, and approachable.
 
-- Local default: `./habits.db`
-- Render recommended path: `/var/data/habits.db`
+This project was a way to practice:
 
-If the parent folder does not exist, the app creates it automatically before connecting.
+- designing a dashboard UI that feels clearer than a default CRUD app
+- connecting a FastAPI backend to a lightweight frontend
+- working with templates, forms, API endpoints, and local persistence
+- building a complete project that is easy for someone else to clone and run
 
-## Step-by-step: deploy on Render
+## Features
 
-Render is a good fit for this project because it can keep a FastAPI service running continuously and attach a persistent disk for SQLite.
+- habit creation with name and description
+- daily completion tracking
+- search and filter tools for scanning long habit lists
+- summary cards for total habits, completed habits, pending habits, and completion rate
+- reset and delete actions for quick management
+- local SQLite persistence
+- responsive dashboard and login flow
 
-### 1. Push the project to GitHub
+## Demo
 
-Create a GitHub repo, then push this code to it.
+Local demo:
 
-Example:
-
-```powershell
-git init
-git add .
-git commit -m "Prepare app for deployment"
-git branch -M main
-git remote add origin <your-github-repo-url>
-git push -u origin main
+```text
+http://127.0.0.1:8000
 ```
 
-### 2. Create a Render account
+Core flow:
 
-Sign in at `https://render.com/` and connect your GitHub account.
+1. Open the login screen
+2. Enter the dashboard
+3. Add a habit
+4. Mark it complete
+5. Filter by completed or pending
+6. Track your progress from the top summary cards
 
-### 3. Create the web service
+If you want to turn this into a GitHub portfolio piece, you can later replace this section with:
 
-You have two easy options:
+- a live demo link
+- a short GIF of the main dashboard flow
+- before/after UI screenshots
 
-- Option A: use the `render.yaml` already in this repo
-- Option B: create the service manually in the Render dashboard
+## Screenshots
 
-If you use the Blueprint flow, Render will read `render.yaml` and prefill the service settings.
+Add your screenshots or recordings here after uploading images to the repo.
 
-### 4. Confirm the service settings
+Suggested structure:
 
-These are the important settings for this app:
+```md
+![Login Screen](./assets/login-screen.png)
+![Dashboard Overview](./assets/dashboard-overview.png)
+![Habit Cards](./assets/habit-cards.png)
+```
 
-- Runtime: `Python`
-- Build command: `pip install -r requirements.txt`
-- Start command: `uvicorn main:app --host 0.0.0.0 --port $PORT`
-- Health check path: `/health`
+Suggested GIF section:
 
-### 5. Attach persistent storage
+```md
+![Demo GIF](./assets/habit-tracker-demo.gif)
+```
 
-This part matters because SQLite should not live on temporary disk.
+Suggested shots to capture:
 
-Use a persistent disk with:
+- login or register screen
+- top dashboard summary section
+- create-habit form
+- filtered habit list view
+- completed habit state
 
-- Mount path: `/var/data`
-- Database path env var: `DATABASE_PATH=/var/data/habits.db`
+## Tech Stack
 
-If you deploy from `render.yaml`, that configuration is already included.
+- FastAPI
+- SQLite
+- Jinja2 templates
+- HTML
+- CSS
+- Vanilla JavaScript
 
-### 6. Deploy
+## Project Structure
 
-Start the deploy and wait for Render to finish building and launching the app.
+```text
+.
+|-- main.py
+|-- requirements.txt
+|-- templates/
+|   |-- login.html
+|   `-- dashboard.html
+`-- static/
+    |-- styles.css
+    `-- app.js
+```
 
-Once it is live, open your Render URL, which will look something like:
+## Run Locally
 
-`https://your-service-name.onrender.com`
+### 1. Clone the repository
 
-### 7. Test the hosted app
+```bash
+git clone <your-repo-url>
+cd <your-repo-folder>
+```
 
-After deploy:
+### 2. Create a virtual environment
 
-1. Open the app URL
-2. Create a habit
-3. Refresh the page
-4. Confirm the habit is still there
-5. Redeploy once and confirm the data still persists
+Windows PowerShell:
 
-If the habit survives a redeploy, your disk-backed SQLite setup is working correctly.
+```powershell
+python -m venv .venv
+.venv\Scripts\Activate.ps1
+```
 
-### 8. Optional: add a custom domain
+macOS / Linux:
 
-Inside Render, open your service settings and add your own domain name if you want something more polished than the default `onrender.com` URL.
+```bash
+python3 -m venv .venv
+source .venv/bin/activate
+```
 
-## Manual Render setup reference
+### 3. Install dependencies
 
-If you create the service manually instead of using `render.yaml`, use:
+```bash
+pip install -r requirements.txt
+```
 
-- Build command: `pip install -r requirements.txt`
-- Start command: `uvicorn main:app --host 0.0.0.0 --port $PORT`
-- Environment variable: `DATABASE_PATH=/var/data/habits.db`
-- Persistent disk mount path: `/var/data`
-- Health check path: `/health`
+### 4. Start the development server
 
-## Notes for production
+```bash
+uvicorn main:app --reload
+```
 
-- This app currently uses simple placeholder auth flow, not real production authentication.
-- SQLite is fine for a small personal app or demo, but Postgres is the better next step if you want multi-user support or stronger reliability.
-- A service with a persistent disk is usually limited to a single instance, which is okay for this project.
+### 5. Open the app
+
+```text
+http://127.0.0.1:8000
+```
+
+## How It Works
+
+The app uses FastAPI to serve both HTML pages and habit-related endpoints. Habits and daily completions are stored in SQLite, while the dashboard uses vanilla JavaScript to fetch, render, search, and filter data on the page without needing a full frontend framework.
+
+That makes the project small enough to understand quickly, while still covering the major pieces of a real full-stack app.
+
+## Replicate This Project
+
+If you want to build something similar from scratch, the general path looks like this:
+
+1. Set up a FastAPI app with static files and Jinja templates.
+2. Create a SQLite schema for habits and daily completions.
+3. Add routes for page rendering and habit actions.
+4. Build the dashboard layout in HTML and CSS.
+5. Use JavaScript `fetch` calls to load and update habits dynamically.
+6. Add simple stats, filtering, and search for better usability.
+7. Polish the UI so it feels more like a product and less like a prototype.
+
+## Current Limitations
+
+This version is intentionally simple, so a few things are still basic:
+
+- authentication is placeholder-only and does not create real user sessions
+- habits are currently tied to a default user in the backend
+- streak logic reflects completion count, not true consecutive-day streaks
+- the project is best suited for local use, learning, or portfolio presentation in its current form
+
+## Future Improvements
+
+- real authentication and session management
+- true streak calculations
+- edit habit details inline
+- weekly or monthly progress charts
+- habit categories or tags
+- reminders or due-time support
+- PostgreSQL for easier hosted deployment
+
+## License
+
+This project is available as a learning reference, portfolio piece, or starter app for future improvements.
