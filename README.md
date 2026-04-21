@@ -66,16 +66,16 @@ Core flow:
 
 ## Screenshots
 
-<img width="1839" height="443" alt="image" src="https://github.com/user-attachments/assets/19b5cde2-d8a2-461f-b32b-9fa69adc5e0b" />
+- <img width="1839" height="443" alt="image" src="https://github.com/user-attachments/assets/19b5cde2-d8a2-461f-b32b-9fa69adc5e0b" />
 
 
-<img width="1854" height="750" alt="image" src="https://github.com/user-attachments/assets/c78e5c24-7969-4a79-858a-6368d6280fd5" />
+- <img width="1854" height="750" alt="image" src="https://github.com/user-attachments/assets/c78e5c24-7969-4a79-858a-6368d6280fd5" />
 
 
-<img width="1865" height="724" alt="image" src="https://github.com/user-attachments/assets/0b68255c-06a6-494e-988c-7af951511a9e" />
+- <img width="1865" height="724" alt="image" src="https://github.com/user-attachments/assets/0b68255c-06a6-494e-988c-7af951511a9e" />
 
 
-<img width="1821" height="807" alt="image" src="https://github.com/user-attachments/assets/4dd507df-ba6b-40e8-a5e3-3c1c71da3563" />
+- <img width="1821" height="807" alt="image" src="https://github.com/user-attachments/assets/4dd507df-ba6b-40e8-a5e3-3c1c71da3563" />
 
 
 
