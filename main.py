@@ -1,15 +1,26 @@
+import sqlite3
+from pathlib import Path
+from datetime import date
+import os
+
 from fastapi import FastAPI, Request, Form, HTTPException
 from fastapi.responses import HTMLResponse, RedirectResponse
 from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
-import sqlite3
-from datetime import date
 
 # Database setup
-DATABASE_PATH = "habits.db"
+DEFAULT_DATA_DIR = Path(os.getenv("DATA_DIR", "."))
+DATABASE_PATH = Path(os.getenv("DATABASE_PATH", DEFAULT_DATA_DIR / "habits.db"))
+
+
+def ensure_database_directory():
+    """Make sure the database directory exists before SQLite connects."""
+    DATABASE_PATH.parent.mkdir(parents=True, exist_ok=True)
+
 
 def init_db():
     """Initialize the database and create tables"""
+    ensure_database_directory()
     conn = sqlite3.connect(DATABASE_PATH)
     cursor = conn.cursor()
     
@@ -99,6 +110,11 @@ async def login(email: str = Form(...), password: str = Form(...)):
 @app.get("/dashboard", response_class=HTMLResponse)
 async def dashboard(request: Request):
     return templates.TemplateResponse(request=request, name="dashboard.html")
+
+
+@app.get("/health")
+async def health_check():
+    return {"status": "ok"}
 
 @app.post("/habits")
 async def add_habit(name: str = Form(...), description: str = Form(...)):

@@ -55,6 +55,7 @@ function renderHabits() {
 
     updateStats(habits);
     updateResultCount(filteredHabits.length);
+    updateViewSummary(searchValue, filterValue);
 
     if (!filteredHabits.length) {
         habitsList.innerHTML = '';
@@ -71,6 +72,7 @@ function createHabitCard(habit) {
     const statusClass = habit.completed_today ? 'status-complete' : 'status-pending';
     const description = habit.description?.trim() || 'No description added yet.';
     const lastCompleted = habit.last_completed ? formatDate(habit.last_completed) : 'Not completed yet';
+    const completionCount = habit.total_completions || 0;
 
     return `
         <article class="habit-card ${habit.completed_today ? 'is-complete' : ''}">
@@ -79,14 +81,21 @@ function createHabitCard(habit) {
                     <span class="habit-status ${statusClass}">${statusText}</span>
                     <h4>${escapeHtml(habit.name)}</h4>
                 </div>
-                <span class="habit-streak">${habit.total_completions || 0} check-ins</span>
+                <span class="habit-streak">${completionCount} check-ins</span>
             </div>
             <p class="habit-description">${escapeHtml(description)}</p>
             <div class="habit-meta">
-                <span>Last completion: ${lastCompleted}</span>
+                <div class="meta-row">
+                    <span class="meta-label">Last completion</span>
+                    <span class="meta-value">${lastCompleted}</span>
+                </div>
+                <div class="meta-row">
+                    <span class="meta-label">Progress</span>
+                    <span class="meta-value">${habit.completed_today ? 'On track today' : 'Ready for today'}</span>
+                </div>
             </div>
             <div class="habit-actions">
-                <button class="button ${habit.completed_today ? 'button-secondary' : ''}" data-action="complete" data-id="${habit.id}">
+                <button class="button ${habit.completed_today ? 'button-secondary' : ''}" data-action="complete" data-id="${habit.id}" ${habit.completed_today ? 'disabled' : ''}>
                     ${habit.completed_today ? 'Completed' : 'Mark Complete'}
                 </button>
                 <button class="button button-ghost" data-action="reset" data-id="${habit.id}">Reset</button>
@@ -111,6 +120,18 @@ function updateStats(allHabits) {
 function updateResultCount(count) {
     const label = count === 1 ? '1 habit' : `${count} habits`;
     setText('results-count', label);
+}
+
+function updateViewSummary(searchValue, filterValue) {
+    const filterLabels = {
+        all: 'All habits',
+        pending: 'Needs attention',
+        completed: 'Completed today',
+    };
+    const searchLabel = searchValue ? `Search: "${searchValue}"` : 'Search: Any term';
+
+    setText('active-filter-label', `View: ${filterLabels[filterValue] || filterLabels.all}`);
+    setText('active-search-label', searchLabel);
 }
 
 async function addHabit(event) {

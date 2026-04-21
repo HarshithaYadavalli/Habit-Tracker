@@ -1,15 +1,15 @@
 :root {
-    --bg: #edf4fb;
-    --bg-strong: #d9e6f3;
-    --surface: rgba(251, 247, 255, 0.84);
-    --surface-strong: #f8f2fb;
-    --text: #4a4864;
-    --muted: #7f7d9d;
-    --line: rgba(146, 152, 201, 0.22);
-    --primary: #c996c7;
-    --primary-deep: #9c8ec5;
-    --accent: #8fa5d2;
-    --danger: #cb95b4;
+    --bg: #eef3f9;
+    --bg-strong: #dbe4ef;
+    --surface: rgba(255, 255, 255, 0.92);
+    --surface-strong: #f7f2f7;
+    --text: #2f3552;
+    --muted: #5e6484;
+    --line: rgba(95, 108, 151, 0.2);
+    --primary: #a56490;
+    --primary-deep: #7e547f;
+    --accent: #5478b9;
+    --danger: #b15c7b;
     --shadow: 0 24px 60px rgba(152, 161, 210, 0.18);
     --radius-lg: 28px;
     --radius-md: 18px;
@@ -30,10 +30,11 @@ body {
     margin: 0;
     color: var(--text);
     font-family: var(--font-body);
+    line-height: 1.55;
     background:
-        radial-gradient(circle at top left, rgba(171, 204, 235, 0.55), transparent 28%),
-        radial-gradient(circle at top right, rgba(201, 150, 199, 0.28), transparent 24%),
-        radial-gradient(circle at bottom center, rgba(242, 206, 221, 0.35), transparent 32%),
+        radial-gradient(circle at top left, rgba(171, 204, 235, 0.4), transparent 28%),
+        radial-gradient(circle at top right, rgba(201, 150, 199, 0.18), transparent 24%),
+        radial-gradient(circle at bottom center, rgba(242, 206, 221, 0.24), transparent 32%),
         linear-gradient(135deg, #eef5fc 0%, #f8edf7 50%, #e8f0fa 100%);
 }
 
@@ -89,7 +90,7 @@ span {
 .topbar {
     border: 1px solid var(--line);
     background: var(--surface);
-    backdrop-filter: blur(18px);
+    backdrop-filter: blur(14px);
     box-shadow: var(--shadow);
 }
 
@@ -208,8 +209,9 @@ span {
 }
 
 label {
-    font-size: 0.95rem;
+    font-size: 0.98rem;
     color: var(--muted);
+    font-weight: 600;
 }
 
 input,
@@ -217,10 +219,11 @@ textarea,
 select {
     width: 100%;
     border: 1px solid rgba(146, 152, 201, 0.24);
-    background: rgba(255, 255, 255, 0.68);
+    background: rgba(255, 255, 255, 0.96);
     color: var(--text);
     border-radius: 14px;
     padding: 14px 16px;
+    font-size: 1rem;
     outline: none;
     transition: border-color 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
 }
@@ -319,7 +322,8 @@ button:hover {
 .nav-link {
     padding: 13px 16px;
     border-radius: 999px;
-    color: var(--muted);
+    color: #4f5675;
+    font-weight: 600;
     transition: background 0.2s ease, color 0.2s ease, transform 0.2s ease;
 }
 
@@ -373,6 +377,7 @@ button:hover {
 .auth-card h2 {
     margin: 8px 0 0;
     font-size: 2rem;
+    line-height: 1.08;
 }
 
 .topbar-actions,
@@ -391,7 +396,7 @@ button:hover {
 .stat-card {
     padding: 24px;
     border-radius: var(--radius-md);
-    background: rgba(247, 243, 252, 0.9);
+    background: rgba(250, 248, 252, 0.96);
     border: 1px solid rgba(146, 152, 201, 0.14);
     box-shadow: var(--shadow);
 }
@@ -414,10 +419,35 @@ button:hover {
     margin-bottom: 20px;
 }
 
+.panel-note {
+    max-width: 340px;
+    margin: 0;
+    font-size: 0.96rem;
+}
+
 .controls-row {
     display: grid;
     grid-template-columns: minmax(0, 1fr) 220px;
     gap: 16px;
+}
+
+.view-summary {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    margin-top: 18px;
+}
+
+.summary-pill {
+    display: inline-flex;
+    align-items: center;
+    padding: 9px 12px;
+    border-radius: 999px;
+    background: rgba(84, 120, 185, 0.08);
+    border: 1px solid rgba(84, 120, 185, 0.14);
+    color: #42526f;
+    font-size: 0.92rem;
+    font-weight: 600;
 }
 
 .habits-grid {
@@ -429,7 +459,7 @@ button:hover {
 .habit-card {
     padding: 22px;
     border-radius: 24px;
-    background: rgba(248, 244, 252, 0.92);
+    background: rgba(250, 248, 252, 0.98);
     border: 1px solid rgba(146, 152, 201, 0.14);
     display: grid;
     gap: 16px;
@@ -455,6 +485,7 @@ button:hover {
 .habit-card h4 {
     margin: 10px 0 0;
     font-size: 1.5rem;
+    line-height: 1.15;
 }
 
 .habit-status,
@@ -487,10 +518,43 @@ button:hover {
     white-space: nowrap;
 }
 
-.habit-description,
-.habit-meta {
+.habit-description {
     margin: 0;
     color: var(--muted);
+    font-size: 0.98rem;
+}
+
+.habit-meta {
+    display: grid;
+    gap: 8px;
+}
+
+.meta-row {
+    display: flex;
+    justify-content: space-between;
+    gap: 16px;
+    font-size: 0.93rem;
+    color: var(--muted);
+}
+
+.meta-label {
+    font-weight: 700;
+    color: #495270;
+}
+
+.meta-value {
+    text-align: right;
+}
+
+.button[disabled] {
+    cursor: default;
+    opacity: 0.8;
+    transform: none;
+}
+
+.button[disabled]:hover {
+    transform: none;
+    background: var(--accent);
 }
 
 .empty-state {
@@ -541,6 +605,14 @@ button:hover {
     .habit-card-top,
     .habit-actions {
         display: grid;
+    }
+
+    .meta-row {
+        grid-template-columns: 1fr;
+    }
+
+    .meta-value {
+        text-align: left;
     }
 
     .stats-grid,
